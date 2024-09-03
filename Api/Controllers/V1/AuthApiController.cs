@@ -21,10 +21,11 @@ namespace Api.V1
 
 
         [HttpPost("Login")]
-        public async Task<ApiResult<string>> LoginAsync(UserLoginDto userLogin)
+        public async Task<ApiResult<string>> LoginAsync(UserLoginDto? userLogin)
         {
             return ApiResultCreator.Success(await _module.LoginAsync(userLogin));
         }
+
 
         [HttpPost("Register")]
         public async Task<ApiResult<string>> RegisterAsync(UserRegisterDto? register)

@@ -77,7 +77,7 @@ public class RegisterApiTest
 
     [Theory]
     [InlineData("User2", "p1", "already exsit data in UserEntity [UserName : User2]")]
-    [InlineData("User3", "p2", "already exsit data in UserEntity [Phone : p2]")]
+    [InlineData("User5", "p2", "already exsit data in UserEntity [Phone : p2]")]
     public async Task When_try_to_register_already_user_Expect_get_bad_request(string userName, string phone, string errorMessage)
     {
         //-ARRANGE
