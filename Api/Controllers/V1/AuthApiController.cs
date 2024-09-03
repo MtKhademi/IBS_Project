@@ -32,26 +32,27 @@ namespace Api.V1
             return ApiResultCreator.Success(await _module.RegisterAsync(register));
         }
 
-        [HttpGet("download")]
-        public IActionResult DownloadHelperFile()
-        {
-            string webRootPath = _env.WebRootPath;
-            string outputFilePath = Path.Combine(webRootPath, "Helper.pdf");
 
-            if (!System.IO.File.Exists(outputFilePath))
-            {
-                // Return a 404 Not Found error if the file does not exist
-                return NotFound();
-            }
+        //[HttpGet("download")]
+        //public IActionResult DownloadHelperFile()
+        //{
+        //    string webRootPath = _env.WebRootPath;
+        //    string outputFilePath = Path.Combine(webRootPath, "Helper.pdf");
 
-            var fileInfo = new System.IO.FileInfo(outputFilePath);
-            Response.ContentType = "application/pdf";
-            Response.Headers.Add("Content-Disposition", "attachment;filename=\"" + fileInfo.Name + "\"");
-            Response.Headers.Add("Content-Length", fileInfo.Length.ToString());
+        //    if (!System.IO.File.Exists(outputFilePath))
+        //    {
+        //        // Return a 404 Not Found error if the file does not exist
+        //        return NotFound();
+        //    }
 
-            // Send the file to the client
-            return File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
-        }
+        //    var fileInfo = new System.IO.FileInfo(outputFilePath);
+        //    Response.ContentType = "application/pdf";
+        //    Response.Headers.Add("Content-Disposition", "attachment;filename=\"" + fileInfo.Name + "\"");
+        //    Response.Headers.Add("Content-Length", fileInfo.Length.ToString());
+
+        //    // Send the file to the client
+        //    return File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
+        //}
 
     }
 }
