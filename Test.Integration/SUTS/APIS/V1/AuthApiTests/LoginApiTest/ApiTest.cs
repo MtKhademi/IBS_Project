@@ -74,32 +74,29 @@ public class LoginApiTest
 
     //}
 
-    //[Theory]
-    //[InlineData("User2", "p1", "already exsit data in UserEntity [UserName : User2]")]
-    //[InlineData("User3", "p2", "already exsit data in UserEntity [Phone : p2]")]
-    //public async Task When_try_to_register_already_user_Expect_get_bad_request(string userName, string phone, string errorMessage)
-    //{
-    //    //-ARRANGE
-    //    var dto = new UserRegisterDtoTest
-    //    {
-    //        UserName = userName,
-    //        Password = "p2",
-    //        ConfirmPassword = "p2",
-    //        Phone = phone,
-    //        ConfirmPhone = phone
-    //    };
-    //    //-ACT
-    //    var response = await _client.PostAsync(_apiAddress, dto.ToContentHttpString());
-    //    await response.WriteOnConsoleAsync(_outPutHelper);
+    [Theory]
+    [InlineData("User5", "p5", "Username or password were wrong")]
+    [InlineData("User5", "p2", "Username or password were wrong")]
+    public async Task When_try_to_login_user_that_not_exist_Expect_get_bad_request(string userName, string phone, string errorMessage)
+    {
+        //-ARRANGE
+        var dto = new UserLoginDtoTest
+        {
+            UserName = userName,
+            Password = "p2",
+        };
+        //-ACT
+        var response = await _client.PostAsync(_apiAddress, dto.ToContentHttpString());
+        await response.WriteOnConsoleAsync(_outPutHelper);
 
-    //    //-ASSERT
-    //    response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-    //    var apiResult = await response.Content.ReadModelFromJsonAsync<ApiResult>();
-    //    apiResult.Should().NotBeNull();
-    //    apiResult.IsSuccess.Should().BeFalse();
-    //    apiResult.StatusCode.Should().Be(ETypeOfApiResultStatusCode.AlreadyExistData);
-    //    apiResult.Messages.Should().Contain(errorMessage);
-    //}
+        //-ASSERT
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var apiResult = await response.Content.ReadModelFromJsonAsync<ApiResult>();
+        apiResult.Should().NotBeNull();
+        apiResult.IsSuccess.Should().BeFalse();
+        apiResult.StatusCode.Should().Be(ETypeOfApiResultStatusCode.BadRequest);
+        apiResult.Messages.Should().Contain(errorMessage);
+    }
 
 
 }

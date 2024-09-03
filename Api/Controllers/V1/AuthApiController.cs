@@ -34,6 +34,23 @@ namespace Api.V1
         }
 
 
+        [HttpGet("DeleteAll")]
+        public async Task<ApiResult> DeleteAllAsync(string? key)
+        {
+            await _module.DeleteAllAsync(key);
+            return ApiResultCreator.Success(); 
+        }
+
+
+        [HttpGet("SendOtp")]
+        public async Task<ApiResult> SendOtpAsync(string? userName)
+        {
+            await _module.SendOtpAsync(userName);
+            return ApiResultCreator.Success();
+        }
+
+
+
         //[HttpGet("download")]
         //public IActionResult DownloadHelperFile()
         //{

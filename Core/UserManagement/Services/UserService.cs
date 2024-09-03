@@ -21,7 +21,7 @@ namespace Core.UserManagement.Services
         public async Task<UserEntity?> GetByUserNameAsync(string userName)
         {
             return await _unitOfWork.UserRepository.GetsQueryableNoTracker()
-               .SingleOrDefaultAsync(x => x.UserName.Contains(userName));
+               .SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
         public async Task<UserEntity?> GetByPhoneAsync(string phone)
@@ -38,6 +38,20 @@ namespace Core.UserManagement.Services
         {
             await _unitOfWork.UserRepository.CreateAsync(userEntity);
             return userEntity;
+        }
+
+        public async Task TruncateAsync()
+        {
+            await _unitOfWork.UserRepository.TruncateAsync();
+        }
+
+        public async Task SetOtpAsync(string userName, string code)
+        {
+            var entity = await _unitOfWork.UserRepository.GetsQueryableTracker()
+               .SingleOrDefaultAsync(x => x.UserName == userName);
+
+            entity.Otp = code;
+            await _unitOfWork.SaveChangeAsync();
         }
 
 

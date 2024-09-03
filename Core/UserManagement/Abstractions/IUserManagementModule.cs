@@ -5,7 +5,9 @@ namespace Core.UserManagement.Abstractions
 {
     public interface IUserManagement : IBaseModule
     {
+        Task DeleteAllAsync(string key);
         Task<string> LoginAsync(UserLoginDto? userLogin);
         Task<string> RegisterAsync(UserRegisterDto? register);
+        Task SendOtpAsync(string? userName);
     }
 }

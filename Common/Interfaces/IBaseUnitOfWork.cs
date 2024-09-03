@@ -33,6 +33,6 @@ namespace Common.UnitOfWork
         /// DbContext Class SaveChanges method
         /// </summary>
         /// <returns></returns>
-        Task SaveAsync();
+        Task SaveChangeAsync();
     }
 }

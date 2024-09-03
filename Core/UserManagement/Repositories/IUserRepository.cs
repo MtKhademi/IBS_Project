@@ -7,7 +7,8 @@ namespace Core.UserManagement.Repositories
     public interface IUserRepository :
         IGetsTrackingRepository<UserEntity>,
         IGetsNoTrackingRepository<UserEntity>,
-        ICreateRepository<UserEntity>
+        ICreateRepository<UserEntity>,
+        ITruncateRepository
     {
     }
 }

@@ -23,11 +23,23 @@ namespace MDF.Test.Fixtures
 
         public async Task<UserEntity?> UserAddAsyc(string userName, string phone, string password)
         {
-            var entity = new UserEntity() { UserName = userName, Phone = phone, Password = password };
+            var entity = new UserEntity()
+            {
+                UserName = userName,
+                Phone = phone,
+                Password = password,
+                Otp = ""
+            };
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
+
+        public async Task<int> UserGetCountAsync()
+        {
+            return await _context.Users.CountAsync();
+        }
+
 
         #endregion
 
