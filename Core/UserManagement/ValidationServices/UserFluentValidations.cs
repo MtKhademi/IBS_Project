@@ -18,7 +18,7 @@ namespace Core.UserManagement.ValidationServices
         {
             RuleFor(user => user.UserName).NotEmpty();
             RuleFor(user => user.Password).NotEmpty();
-            RuleFor(user => user.ConfirmPassword).NotEmpty().Equal(user => user.ConfirmPassword);
+            RuleFor(user => user.ConfirmPassword).NotEmpty().Equal(user => user.Password);
             RuleFor(user => user.Phone).NotEmpty();
             RuleFor(user => user.ConfirmPhone).NotEmpty().Equal(user => user.Phone);
         }

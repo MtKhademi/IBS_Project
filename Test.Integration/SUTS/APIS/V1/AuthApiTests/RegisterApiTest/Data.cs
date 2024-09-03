@@ -11,8 +11,15 @@ internal class UserRegisterDtoTestNotValidData : TheoryData<UserRegisterDtoTest?
              "'User Name' must not be empty.",
              "'Password' must not be empty."
             ]);
-        Add(new UserRegisterDtoTest { UserName = "x", Phone = "p", ConfirmPhone = "y", Password = "p", ConfirmPassword = "y" }, [
-             "\u0027Confirm Phone\u0027 must be equal to \u0027p\u0027."
+        Add(new UserRegisterDtoTest { UserName = "x", Phone = "p", ConfirmPhone = "y", Password = "p", ConfirmPassword = "y" },
+            [ 
+                "'Confirm Phone' must be equal to 'p'."
+            ]);
+
+
+        Add(new UserRegisterDtoTest { UserName = "x", Phone = "p", ConfirmPhone = "p", Password = "p", ConfirmPassword = "y" },
+            [
+                "'Confirm Password' must be equal to 'p'."
             ]);
     }
 }
