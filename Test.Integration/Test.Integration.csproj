@@ -34,4 +34,10 @@
     <Folder Include="SUTS\APIS\V1\Fixtures\Builders\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SUTS\APIS\V1\QuestionApiTests\QuestionAddWithExcellFileApiTest\Sus.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

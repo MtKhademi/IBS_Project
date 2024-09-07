@@ -80,6 +80,11 @@ namespace Core.DAL.Implementations
 
             await _context.SaveChangesAsync();
         }
+        public virtual async Task DeletesAllHardAsync()
+        {
+            string cmd = $"DELETE FROM {AnnotationHelper.TableName(_dbSet)}";
+            await _context.Database.ExecuteSqlRawAsync(cmd);
+        }
         public virtual async Task TruncateAsync()
         {
             string cmd = $"TRUNCATE TABLE {AnnotationHelper.TableName(_dbSet)}";

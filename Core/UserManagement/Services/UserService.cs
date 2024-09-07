@@ -3,15 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using Core.UserManagement.Entities;
 using Core.DAL;
 using Common.Exceptions;
+using Core.UserManagement.Abstractions.Dtos;
+using Core.UserManagement.Abstractions.Exceptions;
+using Core.UserManagement.MapperService;
 
 namespace Core.UserManagement.Services
 {
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UserService(IUnitOfWork unitOfWork)
+        private readonly IUserMapperService mapperService;
+        public UserService(IUnitOfWork unitOfWork, IUserMapperService mapperService)
         {
             _unitOfWork = unitOfWork;
+            this.mapperService = mapperService;
         }
 
 
@@ -20,7 +25,7 @@ namespace Core.UserManagement.Services
 
         public async Task<UserEntity?> GetByUserNameAsync(string userName)
         {
-            return await _unitOfWork.UserRepository.GetsQueryableNoTracker()
+            return await _unitOfWork.UserRepository.GetsQueryableTracker()
                .SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
@@ -42,7 +47,7 @@ namespace Core.UserManagement.Services
 
         public async Task TruncateAsync()
         {
-            await _unitOfWork.UserRepository.TruncateAsync();
+            await _unitOfWork.UserRepository.DeletesAllHardAsync();
         }
 
         public async Task SetOtpAsync(string userName, string code)
@@ -52,6 +57,18 @@ namespace Core.UserManagement.Services
 
             entity.Otp = code;
             await _unitOfWork.SaveChangeAsync();
+        }
+
+        public async Task<UserEntity> UpdateAsync(UserGetDto updateDto)
+        {
+            var user = await GetByUserNameAsync(updateDto.UserName);
+            if (user is null)
+                throw new UserNameNotExistException(updateDto.UserName);
+
+            mapperService.MapUpdate(user, updateDto);
+            await _unitOfWork.SaveChangeAsync();
+
+            return user;
         }
 
 

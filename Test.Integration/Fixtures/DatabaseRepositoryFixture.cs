@@ -1,6 +1,9 @@
 ﻿using Core.DAL;
+using Core.QuestionModule.Abstractions.Enumerations;
+using Core.QuestionModule.Entities;
 using Core.UserManagement.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MDF.Test.Fixtures
 {
@@ -28,7 +31,13 @@ namespace MDF.Test.Fixtures
                 UserName = userName,
                 Phone = phone,
                 Password = password,
-                Otp = ""
+                Otp = "",
+                Age = 0,
+                Education = "",
+                IsMarried = false,
+                LocationOfLiving = "",
+                Sex = false,
+                Work = ""
             };
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -43,5 +52,12 @@ namespace MDF.Test.Fixtures
 
         #endregion
 
+        #region Question
+
+        public async Task<IList<QuestionEntity>> QuestionGetsAsync(ETypeOfQuestion typeOfQuestion)
+        {
+            return await _context.Questions.Where(x => x.TypeOfQuestion == typeOfQuestion).ToListAsync();
+        }
+        #endregion
     }
 }

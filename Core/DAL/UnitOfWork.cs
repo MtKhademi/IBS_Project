@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Core.UserManagement.Repositories;
+using Core.QuestionModule.Repositories;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Core.DAL
 {
@@ -16,11 +18,6 @@ namespace Core.DAL
         private IDbContextTransaction _transaction;
 
 
-        #region private repositories
-
-        private IUserRepository _userRepository = null;
-
-        #endregion
 
         public UnitOfWork(DatabaseContext context)
         {
@@ -77,7 +74,9 @@ namespace Core.DAL
         #region Public properties
 
         public DatabaseContext Context => _context;
-        public IUserRepository UserRepository => _userRepository ?? (_userRepository = new UserRepository(_context));
+        public IUserRepository UserRepository => _context.GetService<IUserRepository>();
+        public IQuestionRepository QuestionRepository => _context.GetService<IQuestionRepository>();
+        public IQuestionAnswerRepository QuestionAnswerRepository => _context.GetService<IQuestionAnswerRepository>();
 
 
         #endregion

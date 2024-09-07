@@ -25,6 +25,7 @@ internal class SendSmsService : ISendSmsService
 
             return result;
         }
+        catch (NotValidDataException) { throw; }
         catch (Exception ex)
         {
 

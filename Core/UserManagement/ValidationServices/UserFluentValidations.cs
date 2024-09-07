@@ -23,4 +23,19 @@ namespace Core.UserManagement.ValidationServices
             RuleFor(user => user.ConfirmPhone).NotEmpty().Equal(user => user.Phone);
         }
     }
+
+    internal class UserGetDtoValidator : AbstractValidator<UserGetDto>
+    {
+        public UserGetDtoValidator()
+        {
+            RuleFor(user => user.UserName).NotEmpty();
+            RuleFor(user => user.Phone).NotEmpty();
+            RuleFor(user => user.Work).NotEmpty();
+            RuleFor(user => user.Age).NotEmpty();
+            RuleFor(user => user.Sex).NotEmpty();
+            RuleFor(user => user.IsMarried).NotEmpty();
+            RuleFor(user => user.Education).NotEmpty();
+            RuleFor(user => user.LocationOfLiving).NotEmpty();
+        }
+    }
 }

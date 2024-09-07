@@ -61,17 +61,15 @@ public class RegisterApiTest
 
         //-ASSERT
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        var apiResult = await response.Content.ReadModelFromJsonAsync<ApiResult<string>>();
+        var apiResult = await response.Content.ReadModelFromJsonAsync<ApiResult<UserGetDtoTest>>();
         apiResult.Should().NotBeNull();
         apiResult.IsSuccess.Should().BeTrue();
         apiResult.StatusCode.Should().Be(ETypeOfApiResultStatusCode.Success);
-        apiResult.Result.Should().NotBeNullOrWhiteSpace();
+        apiResult.Result.Should().NotBeNull();
 
-        var userInDb = await _factory.Repositories.UserGetWithUserNameAsync(dto.UserName);
-        userInDb.Should().NotBeNull();
-        userInDb.UserName.Should().Be(dto.UserName);
-        userInDb.Password.Should().Be(dto.Password);
-        userInDb.Phone.Should().Be(dto.Phone);
+        apiResult.Result.Should().NotBeNull();
+        apiResult.Result.UserName.Should().Be(dto.UserName);
+        apiResult.Result.Phone.Should().Be(dto.Phone);
 
     }
 

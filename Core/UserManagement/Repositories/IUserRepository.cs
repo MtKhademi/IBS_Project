@@ -5,9 +5,10 @@ using Core.UserManagement.Entities;
 namespace Core.UserManagement.Repositories
 {
     public interface IUserRepository :
-        IGetsTrackingRepository<UserEntity>,
-        IGetsNoTrackingRepository<UserEntity>,
-        ICreateRepository<UserEntity>,
+        ICRUDRepository<int,UserEntity>,
+        //IGetsTrackingRepository<UserEntity>,
+        //IGetsNoTrackingRepository<UserEntity>,
+        //ICreateRepository<UserEntity>,
         ITruncateRepository
     {
     }

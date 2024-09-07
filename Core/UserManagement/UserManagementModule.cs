@@ -39,7 +39,7 @@ namespace Core.UserManagement
             await _userService.TruncateAsync();
         }
 
-        public async Task<string> LoginAsync(UserLoginDto? userLogin)
+        public async Task<UserGetDto> LoginAsync(UserLoginDto? userLogin)
         {
             _userValidationService.IsValidAndThrowException(userLogin);
 
@@ -51,10 +51,10 @@ namespace Core.UserManagement
             if (userEntity.Password != userLogin.Password)
                 throw new NotValidDataException($"Username or password were wrong");
 
-            return _jwtUserHandlerService.GenerateToken(_userMapperService.Map(userEntity));
+            return _userMapperService.MapToUserGet(userEntity);
         }
 
-        public async Task<string> RegisterAsync(UserRegisterDto? register)
+        public async Task<UserGetDto> RegisterAsync(UserRegisterDto? register)
         {
             _userValidationService.IsValidAndThrowException(register);
 
@@ -69,9 +69,7 @@ namespace Core.UserManagement
             var userEntity = _userMapperService.Map(register);
             await _userService.AddAsync(userEntity);
 
-            var userModel = _userMapperService.Map(userEntity);
-
-            return _jwtUserHandlerService.GenerateToken(userModel);
+            return _userMapperService.MapToUserGet(userEntity);
         }
 
         public async Task SendOtpAsync(string? userName)
@@ -85,9 +83,17 @@ namespace Core.UserManagement
                 throw new UserNameNotExistException(userName);
 
             var result = await _sendSmsService.SendOtpMessageAsync(userEntity.Phone);
-            
+
             await _userService.SetOtpAsync(userName, result.code);
 
+        }
+
+        public async Task UpdateAsync(UserGetDto? userDto)
+        {
+            _userValidationService.IsValidAndThrowException(userDto);
+
+
+            await _userService.UpdateAsync(userDto);
         }
     }
 }

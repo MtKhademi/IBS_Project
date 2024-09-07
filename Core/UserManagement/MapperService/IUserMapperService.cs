@@ -7,7 +7,9 @@ namespace Core.UserManagement.MapperService
 {
     public interface IUserMapperService :
         IMapperService<UserEntity, UserManagementModel>,
-        IMapperService<UserRegisterDto, UserEntity>
+        IMapperService<UserRegisterDto, UserEntity>,
+        IMapperUpdateService<UserEntity, UserGetDto>
     {
+        UserGetDto MapToUserGet(UserEntity userEntity);
     }
 }

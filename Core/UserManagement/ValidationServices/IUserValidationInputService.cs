@@ -5,6 +5,7 @@ namespace Core.UserManagement.ValidationServices;
 
 public interface IUserValidationInputService :
     IValidationInputService<UserLoginDto?>,
-    IValidationInputService<UserRegisterDto?>
+    IValidationInputService<UserRegisterDto?>,
+    IValidationInputService<UserGetDto?>
 {
 }

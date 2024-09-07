@@ -9,6 +9,19 @@
         public string? Phone { get; set; }
         public string? ConfirmPhone { get; set; }
     }
+
+    public class UserGetDto
+    {
+        public string? UserName { get; set; }
+        public string? Phone { get; set; }
+        public int? Age { get; set; }
+        public bool? Sex { get; set; }
+        public bool? IsMarried { get; set; }
+        public string? Education { get; set; }
+        public string? Work { get; set; }
+        public string? LocationOfLiving { get; set; }
+    }
+
     #endregion
 
     #region UserLoginDto

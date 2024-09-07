@@ -13,8 +13,16 @@ namespace Core.UserManagement.MapperServices
             public UserMapperConfig()
             {
                 CreateMap<UserEntity, UserManagementModel>();
+                CreateMap<UserEntity, UserGetDto>();
+
                 CreateMap<UserRegisterDto, UserEntity>()
-                    .ForMember(des => des.Otp, opt => opt.MapFrom(src => ""));
+                    .ForMember(des => des.Otp, opt => opt.MapFrom(src => ""))
+                    .ForMember(des => des.Sex, opt => opt.MapFrom(src => false))
+                    .ForMember(des => des.IsMarried, opt => opt.MapFrom(src => false))
+                    .ForMember(des => des.Age, opt => opt.MapFrom(src => 0))
+                    .ForMember(des => des.Education, opt => opt.MapFrom(src => ""))
+                    .ForMember(des => des.Work, opt => opt.MapFrom(src => ""))
+                    .ForMember(des => des.LocationOfLiving, opt => opt.MapFrom(src => ""));
             }
         }
 

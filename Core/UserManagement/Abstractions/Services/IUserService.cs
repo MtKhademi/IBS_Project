@@ -1,10 +1,12 @@
 ﻿using Common.Interfaces;
+using Core.UserManagement.Abstractions.Dtos;
 using Core.UserManagement.Entities;
 
 namespace Core.UserManagement.Abstractions.Services
 {
     public interface IUserService :
         IAddServiceAsync<UserEntity, UserEntity>,
+        IUpdateServiceAsync<UserEntity, UserGetDto>,
         ITruncateServiceAsync
     {
         Task<UserEntity?> GetByUserNameAsync(string userName);

@@ -16,6 +16,7 @@
 
         IDeleteHardRepository<TKeyType, TModel>,
         IDeletesHardByRepository<TKeyType, TModel>,
+        IDeletesAllHardByRepository,
         ITruncateRepository,
 
         IDeletesSoftepository<TKeyType, TModel>,
@@ -72,6 +73,10 @@
 
     #region Delete
 
+    public interface IDeleteHardRepository<TKeyModel> : IBaseRepository
+    {
+        Task DeleteHardAsync(TKeyModel keyModel);
+    }
     public interface IDeleteHardRepository<TKeyModel, TModel> : IBaseRepository
        where TModel : class
     {
@@ -83,6 +88,10 @@
     {
         Task DeletesHardByAsync(IEnumerable<TKeyModel> keys);
         Task DeletesHardByAsync(IEnumerable<TModel> models);
+    }
+    public interface IDeletesAllHardByRepository : IBaseRepository
+    {
+        Task DeletesAllHardAsync();
     }
     public interface ITruncateRepository : IBaseRepository
     {
@@ -103,7 +112,7 @@
         Task DeletesSoftAsync(IEnumerable<TModel> models);
     }
 
-  
+
     #endregion
 
 
