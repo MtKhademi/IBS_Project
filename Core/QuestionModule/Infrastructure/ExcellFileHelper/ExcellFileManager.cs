@@ -19,6 +19,7 @@ internal class ExcellFileManager
         {
             { ETypeOfQuestion.SUS, new SusQuestionTransform() },
             { ETypeOfQuestion.QualityOfLife, new QualitOfLifeQuestionTransform() },
+            { ETypeOfQuestion.Symptoms, new SymptomsQuestionTransform() },
         };
     }
 

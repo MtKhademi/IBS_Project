@@ -21,11 +21,6 @@ public class QuestionApiController(
     IQuestionService susQuestionService,
     IWebHostEnvironment _env) : ControllerBase
 {
-
-
-
-
-
     //[HttpGet("download")]
     //public IActionResult DownloadHelperFile()
     //{
@@ -108,6 +103,39 @@ public class QuestionApiController(
 
             await susQuestionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
                 ETypeOfQuestion.QualityOfLife);
+            return ApiResultCreator.Success();
+        }
+        else
+        {
+            throw new NotValidDataException($"File can not be empty or null");
+        }
+    }
+
+    #endregion
+
+    #region Symptoms
+
+    [HttpPost("Symptoms/AddWithExcellFile")]
+    [Consumes("multipart/form-data")]
+    public async Task<ApiResult> SymptomsAddWithExcellFileAsync(IFormFile file)
+    {
+        if (file != null && file.Length > 0)
+        {
+            //-- SAVE IMAGE
+            var directoryToSave = Path.Combine(_env.WebRootPath, "Question");
+            if (!Directory.Exists(directoryToSave))
+                Directory.CreateDirectory(directoryToSave);
+
+            var pathToSave = Path.Combine(directoryToSave, "ques.excell");
+            if (System.IO.File.Exists(pathToSave))
+                System.IO.File.Delete(pathToSave);
+            using (var stream = System.IO.File.Create(pathToSave))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            await susQuestionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
+                ETypeOfQuestion.Symptoms);
             return ApiResultCreator.Success();
         }
         else

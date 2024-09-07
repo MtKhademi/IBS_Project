@@ -3,5 +3,6 @@
 public enum ETypeOfQuestion 
 {
     SUS,
-    QualityOfLife
+    QualityOfLife,
+    Symptoms
 }
