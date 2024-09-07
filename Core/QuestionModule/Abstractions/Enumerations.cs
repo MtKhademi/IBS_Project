@@ -2,5 +2,6 @@
 
 public enum ETypeOfQuestion 
 {
-    SUS
+    SUS,
+    QualityOfLife
 }

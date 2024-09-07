@@ -10,7 +10,7 @@ using MDF.Test.Common.Extentions;
 using MDF.Test.SUTs.APIs.V2.Common;
 using System.Net.Http.Json;
 
-namespace Test.Integration.SUTS.APIS.V1.QuestionApiTests.QuestionAddWithExcellFileApiTest;
+namespace Test.Integration.SUTS.APIS.V1.QuestionApiTests.SUSQuestionAddWithExcellFileApiTest;
 
 
 
@@ -47,7 +47,7 @@ public class QuestionAddWithExcellFileApiTest :
             nameof(APIS),
             nameof(V1),
             nameof(QuestionApiTests),
-            nameof(QuestionAddWithExcellFileApiTest),
+            nameof(SUSQuestionAddWithExcellFileApiTest),
             "Sus.xlsx");
 
         var checkExistExcellFile = File.Exists(pathFile);

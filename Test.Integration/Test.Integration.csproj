@@ -35,7 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SUTS\APIS\V1\QuestionApiTests\QuestionAddWithExcellFileApiTest\Sus.xlsx">
+    <None Update="SUTS\APIS\V1\QuestionApiTests\QualityLifeQuestionAddWithExcellFileApiTest\exc.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SUTS\APIS\V1\QuestionApiTests\SUSQuestionAddWithExcellFileApiTest\Sus.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

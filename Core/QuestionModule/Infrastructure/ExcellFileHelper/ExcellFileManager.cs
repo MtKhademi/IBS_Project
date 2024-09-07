@@ -17,7 +17,8 @@ internal class ExcellFileManager
     {
         _transfore = new Dictionary<ETypeOfQuestion, ITransformExcellFileToQuestionList>
         {
-            { ETypeOfQuestion.SUS, new SusQuestionTransform() }
+            { ETypeOfQuestion.SUS, new SusQuestionTransform() },
+            { ETypeOfQuestion.QualityOfLife, new QualitOfLifeQuestionTransform() },
         };
     }
 
