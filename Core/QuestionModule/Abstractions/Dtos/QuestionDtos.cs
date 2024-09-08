@@ -10,11 +10,17 @@ public class QuestionGetDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public int Group { get; set; }
-    public string GroupTitle { get; set; }
+    public ETypeOfQuestion TypeOfQuestion { get; set; }
 
-    public List<string> Options { get; set; }
 
+    public List<QuestionOptionGetDto> Options { get; set; }
+
+}
+
+public class QuestionOptionGetDto
+{
+    public string Name { get; set; }
+    public int Value { get; set; }
 }
 
 public class QuestionGetFilterDto

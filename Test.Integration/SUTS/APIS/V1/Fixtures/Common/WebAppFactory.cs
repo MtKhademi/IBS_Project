@@ -91,6 +91,8 @@ namespace MDF.Test.SUTs.APIs.V2.Common
 
                 await RegisterApiTestRequierAsync(repository);
                 await LoginApiTestRequierAsync(repository);
+                await QuestionGetsApiTestRequierAsync(repository);
+
             }
 
         }

@@ -35,21 +35,13 @@ internal class QuestionService(
             try
             {
 
-                await context.Questions.AddAsync(item);
-                await context.SaveChangesAsync();
-                //   await unitOfWork.QuestionRepository.CreateAsync(item);
-                //  await unitOfWork.SaveChangeAsync();
-
-                var xc = context.Questions.ToList();
+                await unitOfWork.QuestionRepository.CreateAsync(item);
             }
             catch (Exception ex)
             {
 
                 throw new Exception($"ERROR : {item}", ex);
             }
-
-            var xx = unitOfWork.QuestionRepository.GetsQueryableTracker().ToList();
-
         }
 
         await unitOfWork.CommitAsync();
@@ -62,10 +54,6 @@ internal class QuestionService(
         var typeQuestion = filter.TypeOfQuestion.Value;
         var result = await unitOfWork.QuestionRepository.GetsQueryableNoTracker()
             .Where(x => x.TypeOfQuestion == typeQuestion).ToListAsync();
-
-
-        var xx = unitOfWork.QuestionRepository.GetsQueryableTracker().ToList();
-        var xc = context.Questions.ToList();
 
 
         return questionMapperService.Maps(result);

@@ -42,12 +42,11 @@ public class QuestionApiController(
     //    return File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
     //}
 
-    #region SUS
-    [HttpGet("SUS/QuestionGets")]
+    [HttpGet("QuestionGets")]
     public async Task<ApiResult<IEnumerable<QuestionGetDto>>> QuestionGetsAsync([FromQuery] QuestionGetFilterDto? filter)
     => ApiResultCreator.Success(await susQuestionService.GetsByFilterAsync(filter));
 
-
+    #region SUS
 
     [HttpPost("SUS/AddWithExcellFile")]
     [Consumes("multipart/form-data")]

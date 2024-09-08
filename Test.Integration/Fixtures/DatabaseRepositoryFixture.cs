@@ -54,6 +54,22 @@ namespace MDF.Test.Fixtures
 
         #region Question
 
+        public async Task QuestionAddAsync(string title,
+            ETypeOfQuestion typeOfQuestion,
+            IEnumerable<(string name, int value)> options)
+        {
+            await _context.Questions.AddAsync(new QuestionEntity
+            {
+                Title = title,
+                TypeOfQuestion = typeOfQuestion,
+                QuestionOptions = options.Select(x => new QuestionOption
+                {
+                    Name = x.name,
+                    Value = x.value
+                }).ToList()
+            });
+            await _context.SaveChangesAsync();
+        }
         public async Task<IList<QuestionEntity>> QuestionGetsAsync(ETypeOfQuestion typeOfQuestion)
         {
             return await _context.Questions.Where(x => x.TypeOfQuestion == typeOfQuestion).ToListAsync();

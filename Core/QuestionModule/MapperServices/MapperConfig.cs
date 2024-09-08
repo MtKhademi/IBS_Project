@@ -15,7 +15,9 @@ internal class MapperConfig
     {
         public QuestionMapperConfig()
         {
-            CreateMap<QuestionEntity, QuestionGetDto>();
+            CreateMap<QuestionEntity, QuestionGetDto>()
+                .ForMember(des => des.Options, opt => opt.MapFrom(src => src.QuestionOptions));
+            CreateMap<QuestionOption, QuestionOptionGetDto>();
         }
     }
 

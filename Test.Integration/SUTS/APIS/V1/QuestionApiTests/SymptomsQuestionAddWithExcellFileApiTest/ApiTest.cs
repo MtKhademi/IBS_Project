@@ -8,7 +8,6 @@ using Core.QuestionModule.Abstractions.Enumerations;
 using MDF.DTOS;
 using MDF.Test.Common.Extentions;
 using MDF.Test.SUTs.APIs.V2.Common;
-using System.Net.Http.Json;
 
 namespace Test.Integration.SUTS.APIS.V1.QuestionApiTests.SymptomsQuestionAddWithExcellFileApiTest;
 

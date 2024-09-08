@@ -18,6 +18,13 @@ internal class QuestionRepository : BaseRepository<int, QuestionEntity>, IQuesti
         _context = context;
     }
 
+    public override IQueryable<QuestionEntity> GetsQueryableNoTracker()
+    {
+        return _context.Questions
+            .Include(q => q.QuestionOptions)
+            .AsNoTracking().AsQueryable();
+    }
+
     public async Task DeleteHardAsync(ETypeOfQuestion keyModel)
         => await _context.Questions.Where(x => x.TypeOfQuestion == keyModel)
             .ExecuteDeleteAsync();
