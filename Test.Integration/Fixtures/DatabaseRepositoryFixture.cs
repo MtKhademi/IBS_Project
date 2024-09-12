@@ -74,6 +74,14 @@ namespace MDF.Test.Fixtures
         {
             return await _context.Questions.Where(x => x.TypeOfQuestion == typeOfQuestion).ToListAsync();
         }
+
+
+        public async Task<QuestionAnswerEntity> QuestionAnswerGetAsync(
+            string userName, int questionId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+            return await _context.QuestionAnswers.SingleOrDefaultAsync(x => x.QuestionId == questionId && x.UserId == user.Id);
+        }
         #endregion
     }
 }
