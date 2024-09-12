@@ -3,6 +3,7 @@
 //----------------------------------
 
 using Core.QuestionModule.Abstractions.Dtos;
+using Core.QuestionModule.Abstractions.Dtos.QuestionAnswerDtos;
 using FluentValidation;
 
 namespace Core.QuestionModule.ValidationServices;
@@ -12,5 +13,16 @@ internal class QuestionGetFilterDtoValidator : AbstractValidator<QuestionGetFilt
     public QuestionGetFilterDtoValidator()
     {
         RuleFor(user => user.TypeOfQuestion).NotEmpty();
+    }
+}
+
+
+internal class QuestionAnswerSetDtoValidator : AbstractValidator<QuestionAnswerSetDto>
+{
+    public QuestionAnswerSetDtoValidator()
+    {
+        RuleFor(user => user.UserName).NotEmpty().NotNull();
+        RuleFor(user => user.QuestionId).NotEmpty().NotNull();
+        RuleFor(user => user.Degree).NotEmpty().NotNull();
     }
 }

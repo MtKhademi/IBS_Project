@@ -10,6 +10,7 @@ using Api.Commons.Extentions;
 using Common.Exceptions;
 using Core.QuestionModule.Abstractions.Dtos;
 using Core.QuestionModule.Abstractions.Enumerations;
+using Core.QuestionModule.Abstractions.Dtos.QuestionAnswerDtos;
 
 namespace Api.Controllers.V1;
 
@@ -18,7 +19,7 @@ namespace Api.Controllers.V1;
 [ApiVersion("1.0")]
 //[AuthorizationUser]
 public class QuestionApiController(
-    IQuestionService susQuestionService,
+    IQuestionService questionService,
     IWebHostEnvironment _env) : ControllerBase
 {
     //[HttpGet("download")]
@@ -44,7 +45,14 @@ public class QuestionApiController(
 
     [HttpGet("QuestionGets")]
     public async Task<ApiResult<IEnumerable<QuestionGetDto>>> QuestionGetsAsync([FromQuery] QuestionGetFilterDto? filter)
-    => ApiResultCreator.Success(await susQuestionService.GetsByFilterAsync(filter));
+    => ApiResultCreator.Success(await questionService.GetsByFilterAsync(filter));
+
+    [HttpPost("QuestionAnswerSet")]
+    public async Task<ApiResult> QuestionAnswerSetAsync([FromBody] QuestionAnswerSetDto? answer)
+    {
+        await questionService.QuestionAnswerSetAsync(answer);
+        return ApiResultCreator.Success();
+    }
 
     #region SUS
 
@@ -67,7 +75,7 @@ public class QuestionApiController(
                 await file.CopyToAsync(stream);
             }
 
-            await susQuestionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
+            await questionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
                 ETypeOfQuestion.SUS);
             return ApiResultCreator.Success();
         }
@@ -80,7 +88,7 @@ public class QuestionApiController(
     #endregion
 
     #region QUALITY
-  
+
     [HttpPost("Quality/AddWithExcellFile")]
     [Consumes("multipart/form-data")]
     public async Task<ApiResult> QualityAddWithExcellFileAsync(IFormFile file)
@@ -100,7 +108,7 @@ public class QuestionApiController(
                 await file.CopyToAsync(stream);
             }
 
-            await susQuestionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
+            await questionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
                 ETypeOfQuestion.QualityOfLife);
             return ApiResultCreator.Success();
         }
@@ -133,7 +141,7 @@ public class QuestionApiController(
                 await file.CopyToAsync(stream);
             }
 
-            await susQuestionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
+            await questionService.AddWithExcellFileAsync(Request.HttpContext.GetUserFromContext(), pathToSave,
                 ETypeOfQuestion.Symptoms);
             return ApiResultCreator.Success();
         }
