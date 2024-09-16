@@ -2,6 +2,7 @@
 //-- Creator : MrMohande3 Khademi --
 //----------------------------------
 
+using Core.IDBModule.Entities;
 using Core.QuestionModule.Entities;
 using Core.UserManagement.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -17,5 +18,8 @@ namespace Core.DAL
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<QuestionEntity> Questions { get; set; }
         public DbSet<QuestionAnswerEntity> QuestionAnswers { get; set; }
+
+        public DbSet<IDBEntity> IDBs { get; set; }
+
     }
 }

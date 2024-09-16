@@ -8,6 +8,7 @@ using System.Data;
 using Core.UserManagement.Repositories;
 using Core.QuestionModule.Repositories;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Core.IDBModule.Repositories;
 
 namespace Core.DAL
 {
@@ -77,6 +78,7 @@ namespace Core.DAL
         public IUserRepository UserRepository => _context.GetService<IUserRepository>();
         public IQuestionRepository QuestionRepository => _context.GetService<IQuestionRepository>();
         public IQuestionAnswerRepository QuestionAnswerRepository => _context.GetService<IQuestionAnswerRepository>();
+        public IIDBRepository IDBRepository => _context.GetService<IIDBRepository>();
 
 
         #endregion

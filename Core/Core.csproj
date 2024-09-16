@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="IDBModule\Abstractions\Exceptions\" />
+    <Folder Include="IDBModule\Extentions\" />
     <Folder Include="QuestionModule\Extentions\" />
   </ItemGroup>
 
