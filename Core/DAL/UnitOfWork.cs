@@ -9,6 +9,7 @@ using Core.UserManagement.Repositories;
 using Core.QuestionModule.Repositories;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Core.IDBModule.Repositories;
+using Core.SymptomsModule.Repositories;
 
 namespace Core.DAL
 {
@@ -79,7 +80,7 @@ namespace Core.DAL
         public IQuestionRepository QuestionRepository => _context.GetService<IQuestionRepository>();
         public IQuestionAnswerRepository QuestionAnswerRepository => _context.GetService<IQuestionAnswerRepository>();
         public IIDBRepository IDBRepository => _context.GetService<IIDBRepository>();
-
+        public ISymptomRepository SymptomRepository => _context.GetService<ISymptomRepository>();
 
         #endregion
     }

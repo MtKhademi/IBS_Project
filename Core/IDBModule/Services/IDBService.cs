@@ -5,6 +5,7 @@ using Core.IDBModule.Abstractions.Services;
 using Core.IDBModule.Infrastructure.ExcellFileHelper;
 using Core.IDBModule.MapperServices;
 using Core.IDBModule.ValidationServices;
+using Core.SymptomsModule.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.IDBModule.Services;

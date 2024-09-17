@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.IDBModule.Repositories
+namespace Core.SymptomsModule.Repositories;
+
+public interface ISymptomRepository : ICRUDRepository<int, SymptomEntity>
 {
-    public interface IIDBRepository : ICRUDRepository<int, IDBEntity>
-    {
-    }
 }

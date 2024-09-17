@@ -3,6 +3,7 @@
 //----------------------------------
 
 using Core.IDBModule.Entities;
+using Core.SymptomsModule.Entities;
 
 namespace Core.IDBModule.Infrastructure.ExcellFileHelper;
 

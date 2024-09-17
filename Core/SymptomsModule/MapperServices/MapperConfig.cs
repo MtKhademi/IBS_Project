@@ -3,11 +3,10 @@
 //----------------------------------
 
 using AutoMapper;
-using Core.IDBModule.Abstractions.Dtos;
-using Core.IDBModule.Entities;
+using Core.SymptomsModule.Abstractions.Dtos;
 using Core.SymptomsModule.Entities;
 
-namespace Core.IDBModule.MapperServices;
+namespace Core.SymptomsModule.MapperServices;
 
 internal class MapperConfig
 {
@@ -15,7 +14,7 @@ internal class MapperConfig
     {
         public IDBMapperConfig()
         {
-            CreateMap<IDBEntity, IDBGetDto>();
+            CreateMap<SymptomAddOrUpdateDto, SymptomEntity>();
         }
     }
 }

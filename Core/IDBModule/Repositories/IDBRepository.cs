@@ -2,6 +2,7 @@
 using Core.DAL;
 using Core.DAL.Implementations;
 using Core.IDBModule.Entities;
+using Core.SymptomsModule.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.IDBModule.Repositories

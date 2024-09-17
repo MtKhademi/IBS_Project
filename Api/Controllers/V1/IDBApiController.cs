@@ -8,6 +8,7 @@ using MDF.DTOS;
 using Common.Exceptions;
 using Core.IDBModule.Abstractions.Services;
 using Core.IDBModule.Abstractions.Dtos;
+using Core.SymptomsModule.Abstractions.Services;
 
 namespace Api.Controllers.V1;
 
@@ -24,7 +25,7 @@ public class IDBApiController(
     => ApiResultCreator.Success(await service.GetsByFilterAsync(filter));
 
 
-    [HttpPost("SUS/AddWithExcellFile")]
+    [HttpPost("AddWithExcellFile")]
     [Consumes("multipart/form-data")]
     public async Task<ApiResult> AddWithExcellFileAsync(IFormFile file)
     {

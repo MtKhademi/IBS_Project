@@ -5,8 +5,6 @@
 using Common.Extentions;
 using Core.IDBModule.Abstractions.Extentions;
 using Core.IDBModule.Entities;
-using Core.QuestionModule.Abstractions.Enumerations;
-using Core.QuestionModule.Entities;
 using OfficeOpenXml;
 
 namespace Core.IDBModule.Infrastructure.ExcellFileHelper;
