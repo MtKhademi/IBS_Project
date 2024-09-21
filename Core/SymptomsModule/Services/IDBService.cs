@@ -18,8 +18,6 @@ public class SymptomService(
     {
         validation.IsValidAndThrowException(addModel);
 
-
-
         var entity = await unitOfWork.SymptomRepository.GetsQueryableTracker()
             .Where(x => x.TypeOfSymptom == addModel.TypeOfSymptom)
             .Where(x => x.DateTimeOfCreation.Date == DateTime.Now.Date)

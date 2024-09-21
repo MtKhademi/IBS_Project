@@ -13,8 +13,6 @@ namespace Api.Commons.Extentions
             if (context is not null && context.Database.IsRelational())
                 context.Database.Migrate();
 
-            var x = context.Database.GetConnectionString();
-
             return app;
         }
     }
