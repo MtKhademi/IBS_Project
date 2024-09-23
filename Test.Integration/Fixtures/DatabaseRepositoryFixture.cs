@@ -1,6 +1,8 @@
 ﻿using Core.DAL;
 using Core.QuestionModule.Abstractions.Enumerations;
 using Core.QuestionModule.Entities;
+using Core.SymptomsModule.Abstractions.Enums;
+using Core.SymptomsModule.Entities;
 using Core.UserManagement.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,5 +85,33 @@ namespace MDF.Test.Fixtures
             return await _context.QuestionAnswers.SingleOrDefaultAsync(x => x.QuestionId == questionId && x.UserId == user.Id);
         }
         #endregion
+
+        #region Symptoms
+
+        public Task<List<SymptomEntity>> SymptomGetAsync(string userName)
+        {
+            return _context.Symptoms
+                .Include(x => x.User)
+                .Where(x => x.User.UserName == userName).ToListAsync();
+        }
+
+        public async Task SymptomAddAsync(string userName,
+            ETypeOfSymptoms typeOfSymptom, int value,
+            DateTime? dtCreate = null)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            await _context.Symptoms.AddAsync(
+               new SymptomEntity
+               {
+                   UserId = user.Id,
+                   TypeOfSymptom = typeOfSymptom,
+                   Value = value,
+                   DateTimeOfUpdate = dtCreate ?? DateTime.Now
+               });
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion
+
     }
 }
