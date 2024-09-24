@@ -8,4 +8,5 @@ public interface ISymptomService
     : IAddOrUpdateServiceAsync<SymptomAddOrUpdateDto>,
     IGetAllServiceAsync<SymptomEntity>
 {
+    Task<List<SymptomChartDataDto>> GetChartAsync(string? userName);
 }

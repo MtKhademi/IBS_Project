@@ -28,32 +28,9 @@ public class SymptomApiController(
     [HttpGet("GetChart")]
     public async Task<ApiResult<List<SymptomChartDataDto>>> GetChartAsync([FromQuery] string? userName)
     {
-        var result = new List<SymptomChartDataDto>();
+        return ApiResultCreator.Success(await service.GetChartAsync(userName));
+    }
 
-        var types = EnumExtensions.ToDictionaryWithNameAndType<ETypeOfSymptoms>();
-        foreach (var typeOfSymptoms in types)
-        {
-            result.Add(new SymptomChartDataDto
-            {
-                TypeOfSymptoms = typeOfSymptoms.Value,
-                Spots = GetSpots().ToList()
-            });
-        }
-        return ApiResultCreator.Success(result);
-    }
-    private IEnumerable<SymptomChartDataSpotDto> GetSpots()
-    {
-        var result = new List<SymptomChartDataSpotDto>();
-        for (int i = 1; i < 9; i++)
-        {
-            result.Add(new SymptomChartDataSpotDto
-            {
-                Week = i,
-                Degree = (new Random()).Next(0, 11)
-            });
-        }
-        return result;
-    }
 
 
     [HttpPost("AddOrUpdate")]

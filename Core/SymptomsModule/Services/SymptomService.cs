@@ -1,11 +1,14 @@
 ﻿using Common.Exceptions;
+using Common.Extentions;
 using Core.DAL;
 using Core.SymptomsModule.Abstractions.Dtos;
+using Core.SymptomsModule.Abstractions.Enums;
 using Core.SymptomsModule.Abstractions.Services;
 using Core.SymptomsModule.Entities;
 using Core.SymptomsModule.MapperServices;
 using Core.SymptomsModule.ValidationServices;
 using Core.UserManagement.Abstractions.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.SymptomsModule.Services;
@@ -72,24 +75,58 @@ public class SymptomService(
                 }
             }
 
-
-            //entity.DateTimeOfUpdate = DateTime.Now;
-            //entity.Value = addModel.Value.Value;
-            //await unitOfWork.SaveChangeAsync();
         }
-        // if not exist lastItemSpecial => add with lastItemTital dateTime
-        // if exist lastItemSpecial
-        // if in the same week => then update
-        // if not the same week => create new 
-
-        //.Where(x => x.TypeOfSymptom == addModel.TypeOfSymptom)
-        //.Where(x => x.DateTimeOfCreation.Date == DateTime.Now.Date)
-        //.SingleOrDefaultAsync();
-
-
-
     }
 
     public async Task<IEnumerable<SymptomEntity>> GetAllAsync()
         => await unitOfWork.SymptomRepository.GetsQueryableNoTracker().ToListAsync();
+
+    public async Task<List<SymptomChartDataDto>> GetChartAsync(string? userName)
+    {
+
+        if (string.IsNullOrWhiteSpace(userName))
+            throw new NotValidDataException("Please enter userName");
+
+        var user = await unitOfWork.UserRepository.GetsQueryableNoTracker()
+            .SingleOrDefaultAsync(x => x.UserName == userName);
+
+        if (user is null)
+            throw new UserNameNotExistException(userName);
+
+        var result = new List<SymptomChartDataDto>();
+
+        var types = EnumExtensions.ToDictionaryWithNameAndType<ETypeOfSymptoms>();
+        foreach (var typeOfSymptoms in types)
+        {
+            result.Add(new SymptomChartDataDto
+            {
+                TypeOfSymptoms = typeOfSymptoms.Value,
+                Spots = await GetSpotsAsync(user.Id, typeOfSymptoms.Value)
+            });
+        }
+
+        return result;
+    }
+
+    private async Task<List<SymptomChartDataSpotDto>> GetSpotsAsync(int userId, ETypeOfSymptoms typeOfSymptom)
+    {
+        var result = new List<SymptomChartDataSpotDto>();
+
+        var data = await unitOfWork.SymptomRepository
+            .GetsQueryableNoTracker()
+            .Where(x => x.UserId == userId)
+            .Where(x => x.TypeOfSymptom == typeOfSymptom).ToListAsync();
+
+        int week = 1;
+        foreach (var spot in data)
+        {
+            result.Add(new SymptomChartDataSpotDto
+            {
+                Week = week++,
+                Degree = spot.Value
+            });
+        }
+
+        return result;
+    }
 }
