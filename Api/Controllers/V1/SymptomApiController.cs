@@ -8,8 +8,6 @@ using MDF.DTOS;
 using Core.SymptomsModule.Abstractions.Services;
 using Core.SymptomsModule.Entities;
 using Core.SymptomsModule.Abstractions.Dtos;
-using Common.Extentions;
-using Core.SymptomsModule.Abstractions.Enums;
 
 namespace Api.Controllers.V1;
 
@@ -40,5 +38,13 @@ public class SymptomApiController(
         return ApiResultCreator.Success();
     }
 
+
+    [HttpGet("GetReport")]
+    public async Task<IActionResult> GetReportAsync()
+    {
+        var pathFile = await service.GetReportAsync();
+        var fileBytes = await System.IO.File.ReadAllBytesAsync(pathFile);
+        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "GetReportSymptoms.xlsx");
+    }
 
 }
