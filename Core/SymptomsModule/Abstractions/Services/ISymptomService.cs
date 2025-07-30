@@ -9,4 +9,6 @@ public interface ISymptomService
     IGetAllServiceAsync<SymptomEntity>
 {
     Task<List<SymptomChartDataDto>> GetChartAsync(string? userName);
+
+    Task<string> GetReportAsync();
 }
