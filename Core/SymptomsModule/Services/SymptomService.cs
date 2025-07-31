@@ -152,6 +152,16 @@ public class SymptomService(
             var overviewWorksheet = package.Workbook.Worksheets.Add("Symptoms Overview");
             CreateSymptomsOverviewSheet(overviewWorksheet, symptomsData);
 
+
+            // Create matrix sheet
+            var matrixWorksheet = package.Workbook.Worksheets.Add("Symptom Matrix");
+            CreateSymptomMatrixSheet(matrixWorksheet, symptomsData);
+
+
+            matrixWorksheet = package.Workbook.Worksheets.Add("Symptom Week Matrix");
+            CreateSymptomWeekMatrixSheet(matrixWorksheet, symptomsData);
+
+
             // Save the file
             var fileInfo = new FileInfo(fullPath);
             await package.SaveAsAsync(fileInfo);
@@ -164,6 +174,107 @@ public class SymptomService(
         }
     }
 
+
+    private void CreateSymptomWeekMatrixSheet(ExcelWorksheet worksheet, List<SymptomEntity> symptomsData)
+    {
+        // Get distinct patient names and symptom types
+        var patientNames = symptomsData
+            .Select(s => s.User.UserName)
+            .Distinct()
+            .OrderBy(n => n)
+            .ToList();
+
+        var symptomTypes = Enum.GetValues(typeof(ETypeOfSymptoms))
+            .Cast<ETypeOfSymptoms>()
+            .ToList();
+
+        int weekCount = 7;
+
+        // Header row
+        worksheet.Cells[1, 1].Value = "Symptom Name";
+        worksheet.Cells[1, 2].Value = "Week";
+        for (int p = 0; p < patientNames.Count; p++)
+        {
+            worksheet.Cells[1, 3 + p].Value = patientNames[p];
+            worksheet.Cells[1, 3 + p].Style.Font.Bold = true;
+        }
+
+        int currentRow = 2;
+        foreach (var symptomType in symptomTypes)
+        {
+            int startRow = currentRow;
+            for (int w = 0; w < weekCount; w++)
+            {
+                worksheet.Cells[currentRow, 2].Value = $"Week {w + 1}";
+
+                for (int p = 0; p < patientNames.Count; p++)
+                {
+                    var patientName = patientNames[p];
+                    var patientSymptoms = symptomsData
+                        .Where(x => x.User.UserName == patientName && x.TypeOfSymptom == symptomType)
+                        .OrderBy(x => x.DateTimeOfCreation)
+                        .ToList();
+
+                    var value = patientSymptoms.ElementAtOrDefault(w)?.Value;
+                    worksheet.Cells[currentRow, 3 + p].Value = value;
+                }
+                currentRow++;
+            }
+            // Merge the symptom name cell vertically for this symptom
+            worksheet.Cells[startRow, 1, currentRow - 1, 1].Merge = true;
+            worksheet.Cells[startRow, 1].Value = GetSymptomDisplayName(symptomType);
+            worksheet.Cells[startRow, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            worksheet.Cells[startRow, 1].Style.Font.Bold = true;
+        }
+
+        worksheet.Cells.AutoFitColumns();
+    }
+    private void CreateSymptomMatrixSheet(ExcelWorksheet worksheet, List<SymptomEntity> symptomsData)
+    {
+        // Get distinct patient names and symptom types
+        var patientNames = symptomsData
+            .Select(s => s.User.UserName)
+            .Distinct()
+            .OrderBy(n => n)
+            .ToList();
+
+        var symptomTypes = Enum.GetValues(typeof(ETypeOfSymptoms))
+            .Cast<ETypeOfSymptoms>()
+            .ToList();
+
+        // Header row: first cell is empty, then patient names
+        worksheet.Cells[1, 1].Value = "Symptom \\ Patient";
+        for (int col = 0; col < patientNames.Count; col++)
+        {
+            worksheet.Cells[1, col + 2].Value = patientNames[col];
+            worksheet.Cells[1, col + 2].Style.Font.Bold = true;
+        }
+
+        // Fill rows: each row is a symptom type
+        for (int row = 0; row < symptomTypes.Count; row++)
+        {
+            var symptomType = symptomTypes[row];
+            worksheet.Cells[row + 2, 1].Value = GetSymptomDisplayName(symptomType);
+            worksheet.Cells[row + 2, 1].Style.Font.Bold = true;
+
+            for (int col = 0; col < patientNames.Count; col++)
+            {
+                var patientName = patientNames[col];
+                var patientSymptoms = symptomsData
+                    .Where(s => s.User.UserName == patientName && s.TypeOfSymptom == symptomType)
+                    .OrderBy(s => s.DateTimeOfCreation)
+                    .ToList();
+
+                // Example: list week numbers (or you can use values, dates, etc.)
+                var weekNumbers = Enumerable.Range(1, patientSymptoms.Count)
+                    .Select(w => $"week{w}");
+
+                worksheet.Cells[row + 2, col + 2].Value = string.Join(", ", weekNumbers);
+            }
+        }
+
+        worksheet.Cells.AutoFitColumns();
+    }
     private async Task<List<SymptomChartDataSpotDto>> GetSpotsAsync(int userId, ETypeOfSymptoms typeOfSymptom)
     {
         var result = new List<SymptomChartDataSpotDto>();
